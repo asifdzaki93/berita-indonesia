@@ -12,7 +12,7 @@ export class BeritaIndonesia implements INodeType {
     description: INodeTypeDescription = {
         displayName: 'Berita Indonesia',
         name: 'beritaIndonesia',
-        icon: 'file:berita.svg',
+        icon: 'file:berita-indonesia.svg',
         group: ['transform'],
         version: 1,
         subtitle: '={{$parameter["resource"] + ": " + $parameter["operation"]}}',
