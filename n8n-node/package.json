@@ -1,0 +1,27 @@
+{
+    "name": "n8n-nodes-berita-indonesia",
+    "version": "0.1.1",
+    "description": "n8n node for Berita Indonesia API",
+    "keywords": [
+        "n8n-community-node-package"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/renomureza/api-berita-indonesia",
+    "main": "dist/nodes/BeritaIndonesia/BeritaIndonesia.node.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build"
+    },
+    "devDependencies": {
+        "n8n-workflow": "*",
+        "typescript": "^5.0.0"
+    },
+    "n8n": {
+        "nodes": [
+            "dist/nodes/BeritaIndonesia/BeritaIndonesia.node.js"
+        ]
+    }
+}
