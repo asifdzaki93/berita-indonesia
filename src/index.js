@@ -12,6 +12,35 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/all', async (req, res) => {
+  try {
+    const results = await Promise.all(
+      endpoints.map(async (endpoint) => {
+        try {
+          const response = await feedid[endpoint.primary].terbaru();
+          return { name: endpoint.primary, ...response };
+        } catch (error) {
+          return null;
+        }
+      })
+    );
+
+    const filteredResults = results.filter((result) => result !== null);
+
+    return res.send({
+      data: filteredResults,
+      message: 'All latest news fetched successfully',
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      data: null,
+      message: 'Failed to fetch all news',
+      success: false,
+    });
+  }
+});
+
 endpoints.forEach((endpoint) => {
   app.get(`/${endpoint.primary}/:category`, async (req, res) => {
     const { category } = req.params;
