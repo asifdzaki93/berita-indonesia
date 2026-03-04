@@ -27,7 +27,7 @@ export class BeritaIndonesia implements INodeType {
                 displayName: 'Base URL',
                 name: 'baseUrl',
                 type: 'string',
-                default: 'http://localhost:3000',
+                default: 'https://berita-indonesia.vercel.app',
                 required: true,
                 description: 'The URL where the Berita Indonesia API is hosted',
             },
