@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-berita-indonesia",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "n8n node for Berita Indonesia API",
     "keywords": [
         "n8n-community-node-package"

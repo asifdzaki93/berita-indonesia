@@ -74,10 +74,14 @@ export class BeritaIndonesia implements INodeType {
                         throw new Error('Could not find endpoints in API response');
                     }
 
-                    return responseData.endpoints.map((endpoint: any) => ({
+                    const options: INodePropertyOptions[] = responseData.endpoints.map((endpoint: any) => ({
                         name: endpoint.name.charAt(0).toUpperCase() + endpoint.name.slice(1),
                         value: endpoint.name,
                     }));
+
+                    options.unshift({ name: 'All (Semua Media)', value: 'all' });
+
+                    return options;
                 } catch (error) {
                     throw new NodeOperationError(this.getNode(), error as Error);
                 }
@@ -86,6 +90,10 @@ export class BeritaIndonesia implements INodeType {
             async getCategories(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
                 const baseUrl = this.getNodeParameter('baseUrl') as string;
                 const resource = this.getNodeParameter('resource') as string;
+
+                if (resource === 'all') {
+                    return [{ name: 'Fetch All Latest', value: 'all' }];
+                }
 
                 try {
                     const responseData = await this.helpers.request({
@@ -122,9 +130,19 @@ export class BeritaIndonesia implements INodeType {
                 const resource = this.getNodeParameter('resource', i) as string;
                 const operation = this.getNodeParameter('operation', i) as string;
 
+                let uri = '';
+                if (resource === 'all') {
+                    uri = `${baseUrl.replace(/\/$/, '')}/all`;
+                } else {
+                    uri = `${baseUrl.replace(/\/$/, '')}/${resource}/${operation}`;
+                }
+
                 const responseData = await this.helpers.request({
                     method: 'GET',
-                    uri: `${baseUrl.replace(/\/$/, '')}/${resource}/${operation}`,
+                    uri,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    },
                     json: true,
                 });
 
