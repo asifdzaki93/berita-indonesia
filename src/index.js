@@ -1,8 +1,11 @@
 require('dotenv').config();
 const app = require('express')();
 const cors = require('cors');
-const { endpoints, endpointsOverview } = require('./utils/endpoints');
 const feedid = require('feedid');
+const axios = require('axios');
+
+// Globally apply User-Agent to axios used by feedid
+axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 const PORT = process.env.PORT || 3000;
 

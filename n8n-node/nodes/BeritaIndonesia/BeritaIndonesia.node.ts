@@ -147,12 +147,32 @@ export class BeritaIndonesia implements INodeType {
                     method: 'GET',
                     uri,
                     headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
                     },
                     json: true,
                 });
 
-                const data = Array.isArray(responseData.data) ? responseData.data : [responseData.data || responseData];
+                let data = [];
+                if (resource === 'all') {
+                    // Flatten all posts from all media sources
+                    data = responseData.data.reduce((acc: any[], source: any) => {
+                        if (source.data && source.data.posts) {
+                            // Add media name to each post for clarity
+                            const postsWithSource = source.data.posts.map((post: any) => ({
+                                ...post,
+                                source: source.name,
+                            }));
+                            return acc.concat(postsWithSource);
+                        }
+                        return acc;
+                    }, []);
+                } else {
+                    // Pull posts directly from the single source data
+                    data = responseData.data?.posts || responseData.posts || responseData;
+                    if (!Array.isArray(data)) {
+                        data = [data];
+                    }
+                }
 
                 const executionData = this.helpers.returnJsonArray(data);
 
