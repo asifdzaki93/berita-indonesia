@@ -1,3 +1,6 @@
+require('dotenv').config();
+const app = require('express')();
+const cors = require('cors');
 const { endpoints, endpointsOverview } = require('./utils/endpoints');
 const feedid = require('feedid');
 const axios = require('axios');
